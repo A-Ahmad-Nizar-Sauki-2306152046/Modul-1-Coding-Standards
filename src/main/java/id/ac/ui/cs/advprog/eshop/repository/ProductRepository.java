@@ -26,7 +26,7 @@ public class ProductRepository {
       return productData.iterator();
    }
 
-   public Product findProductById(String productId) {
+   public Product findById(String productId) {
       for (Product product : productData) {
          if (product.getProductId().equals(productId)) {
             return product;
@@ -35,7 +35,7 @@ public class ProductRepository {
       return null;
    }
 
-   public Product editProduct(Product product) {
+   public Product edit(Product product) {
       for (int i = 0; i < productData.size(); i++) {
          Product productSaved = productData.get(i);
          if (productSaved.getProductId().equals(product.getProductId())) {

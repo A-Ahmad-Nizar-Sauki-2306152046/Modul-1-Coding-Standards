@@ -31,12 +31,12 @@ public class ProductServiceImpl implements ProductService{
 
    @Override
    public Product findProductById(String productId) {
-      return productRepository.findProductById(productId);
+      return productRepository.findById(productId);
    }
 
    @Override
    public void editProduct(String productId, Product product) {
       product.setProductId(productId);
-      productRepository.editProduct(product);
+      productRepository.edit(product);
    }
 }
