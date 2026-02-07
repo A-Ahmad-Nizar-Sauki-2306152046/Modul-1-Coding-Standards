@@ -13,16 +13,22 @@
 
     <table border="1" class="table table-striped table-responsive-md">
         <thead>
-        <tr>
-            <th scope="col">Product Name</th>
-            <th scope="col">Quantity</th>
-        </tr>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Action</th>
+            </tr>
         </thead>
         <tbody>
-        <tr th:each="product: ${products}">
-            <td th:text="${product.productName}"></td>
-            <td th:text="${product.productQuantity}"></td>
-        </tr>
+            <tr th:each="product: ${products}">
+                <td th:text="${product.productId.substring(0, 8)}"></td>
+                <td th:text="${product.productName}"></td>
+                <td th:text="${product.productQuantity}"></td>
+                <td>
+                    <a th:href="@{/product/edit/{id}(id=${product.productId})}" class="btn btn-sm btn-primary">Edit</a>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
