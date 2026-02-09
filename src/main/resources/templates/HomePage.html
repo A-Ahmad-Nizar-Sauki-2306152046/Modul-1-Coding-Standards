@@ -4,45 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADV Shop</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* Sedikit custom style agar lebih manis */
+        :root {
+            --spring-green: #6db33f;
+            --dark-bg: #1a1d20;
+            --card-bg: #212529;
+            --text-light: #e9ecef;
+        }
         body {
-            background-color: #f8f9fa;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            font-family: 'Segoe UI', sans-serif;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .welcome-card {
+        .card-spring {
+            background-color: var(--card-bg);
+            border: 1px solid #343a40;
+            border-top: 5px solid var(--spring-green); /* Aksen Spring */
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
             max-width: 500px;
             width: 100%;
+        }
+        h1 { font-weight: 700; color: #fff; }
+        h3 { color: var(--spring-green); margin-bottom: 1.5rem; }
+
+        .btn-spring {
+            background-color: var(--spring-green);
+            color: #fff;
+            font-weight: 600;
             border: none;
-            border-radius: 15px;
+            padding: 12px;
+        }
+        .btn-spring:hover {
+            background-color: #5fa135;
+            color: #fff;
         }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="card card-spring mx-auto p-5 text-center">
+            <h1 class="display-5 mb-2">ADV Shop</h1>
 
-<div class="container">
-    <div class="card shadow-lg welcome-card mx-auto p-4 text-center">
-        <div class="card-body">
-            <h1 class="display-5 fw-bold text-primary mb-3">ADV Shop</h1>
+            <h3>Welcome</h3>
 
-            <h3 class="text-secondary mb-4">Welcome</h3>
-
-            <p class="card-text text-muted mb-4">
-                Explore our premium collection of products designed just for you.
-                Manage your inventory efficiently.
+            <p class="text-secondary mb-4">
+                Tutorial modul 1. <br>Advanced Programming.
             </p>
 
-            <a th:href="@{/product/list}" class="btn btn-primary btn-lg w-100 shadow-sm">
+            <a th:href="@{/product/list}" class="btn btn-spring w-100 rounded-pill">
                 View Product List
             </a>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
