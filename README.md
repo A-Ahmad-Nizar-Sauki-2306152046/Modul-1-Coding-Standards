@@ -20,9 +20,9 @@ Created by **Ahmad Nizar Sauki** | **2306152046**
 
 ---
 
-### Reflection 1
+## Reflection 1
 
-#### 1. Clean Code Principles
+### 1. Clean Code Principles
 Dalam pengerjaan tugas ini, saya telah menerapkan beberapa prinsip *Clean Code* untuk menjaga kualitas dan keterbacaan kode:
 
 * **Meaningful Names (Penamaan yang Jelas):**
@@ -53,12 +53,12 @@ Saya menyadari pentingnya *version control* yang rapi dalam pengembangan fitur:
 
 ---
 
-### Reflection 2
+## Reflection 2
 
-#### 1. Unit Testing
+### 1. Unit Testing & Code Coverage
 Setelah menulis unit test untuk fitur Edit dan Delete, saya merasa lebih percaya diri dalam memastikan keandalan kode saya. Namun, saya juga mempelajari bahwa **100% Code Coverage tidak menjamin kode bebas dari bug atau error**.
 
-bagi saya code coverage hanya bisa mengukur persentase baris kode yang dieksekusi selama pengujian, tetapi tidak memverifikasi kebenaran logika di dalamnya, karena ada contoh seperti ini:
+Code coverage hanya mengukur persentase baris kode yang dieksekusi selama pengujian, tetapi tidak memverifikasi kebenaran logika di dalamnya.
 > **Contoh:** Pada fitur Edit, misalnya saya menulis kode untuk memperbarui data produk:
 > `this.quantity = newProduct.getQuantity();`
 > tetapi saya **lupa** menulis baris untuk memperbarui nama produk (`this.name = ...`).
@@ -66,14 +66,18 @@ bagi saya code coverage hanya bisa mengukur persentase baris kode yang dieksekus
 > Jika unit test saya hanya mengecek apakah kuantitas berubah (tanpa mengecek apakah nama juga berubah), maka test akan *Passed* dan coverage code tersebut **100%** (karena baris update quantity dieksekusi). Padahal, secara logika bisnis, kode tersebut salah karena gagal memperbarui nama produk. Ini menunjukkan bahwa kualitas *assertion* dalam test jauh lebih penting daripada sekadar angka coverage.
 
 #### 2. Clean Code in Functional Tests
-Terkait tantangan pembuatan functional test baru untuk memverifikasi jumlah item dalam daftar produk:
+Terkait tantangan pembuatan functional test baru untuk memverifikasi jumlah item dalam daftar produk, saya menganalisis kode tersebut sebagai berikut:
 
-* **Masalah (Code Duplication):**
-  Jika saya membuat class functional test baru dan menyalin (*copy-paste*) semua kode setup dari `CreateProductFunctionalTest.java` (seperti konfigurasi `baseUrl`, `serverPort`, dan `@BeforeEach`), hal ini akan melanggar prinsip **DRY (Don't Repeat Yourself)**. Duplikasi kode akan menurunkan kualitas kode dan menyulitkan proses *maintenance*. Misalnya, jika konfigurasi port berubah, saya harus mengubahnya secara manual di setiap file test, lalu jika kedepannya membuat functional test dengan setup yang sama akan selalu memerlukan copy paste setup yang sama dan ini benar-benar tidak efisien.
+* **Code Cleanliness & Quality Issue:**
+  Saya berpendapat bahwa membuat functional test suite baru dengan menyalin (*copy-paste*) prosedur setup dan variabel instance dari `CreateProductFunctionalTest.java` **akan menurunkan kualitas kode (reduce code quality)**. Hal ini menyebabkan kode menjadi tidak bersih (*unclean*) karena melanggar prinsip **DRY (Don't Repeat Yourself)**.
 
-* **Solusi (Inheritance):**
-  menurut saya untuk mengatasi masalah kebersihan kode tersebut, saya menerapkan teknik **Inheritance** (Pewarisan).
-  1. Saya membuat sebuah kelas dasar bernama `BaseFunctionalTest`. Kelas ini bertanggung jawab menangani semua konfigurasi setup umum, seperti inisialisasi `baseUrl`, port, dan driver Selenium.
-  2. Class functional test lainnya (seperti `CreateProductFunctionalTest` atau test suite baru lainnya) cukup melakukan **extends** terhadap `BaseFunctionalTest`, begitu juga jika kedepannya ada yang memerlukan setup umum.
+* **Potential Issues & Reasons:**
+  Masalah utama yang timbul adalah **Code Duplication** (Duplikasi Kode).
+  Jika konfigurasi setup ditulis berulang-ulang di setiap class test, maka kode akan menjadi sulit dirawat (*hard to maintain*). Contohnya, jika di masa depan kita perlu mengubah konfigurasi port atau `baseUrl`, kita harus melakukan perubahan manual di semua file test satu per satu. Ini rentan terhadap *human error* dan inkonsistensi.
 
-  Dengan ini, kode setup hanya perlu ditulis satu kali di `BaseFunctionalTest` dan dapat digunakan kembali oleh semua kelas turunan, menjadikan kode lebih bersih, terstruktur, dan mudah dipelihara.
+* **Improvement Suggestion:**
+  Untuk memperbaiki masalah tersebut dan membuat kode lebih bersih, saya menyarankan penggunaan teknik **Inheritance** (Pewarisan) dengan langkah-langkah berikut:
+  1. Membuat kelas induk bernama `BaseFunctionalTest` yang berisi semua konfigurasi umum (`baseUrl`, port, driver setup, dan `@BeforeEach`).
+  2. Mengubah `CreateProductFunctionalTest` dan class test baru lainnya agar melakukan **extends** terhadap `BaseFunctionalTest`.
+
+  Dengan cara ini, duplikasi kode dapat dihilangkan sepenuhnya, dan setup pengujian terpusat di satu tempat.
