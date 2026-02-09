@@ -122,4 +122,67 @@ class ProductRepositoryTest {
       assertEquals("Kecap Manis Banget", result.getProductName());
       assertEquals("ID-Tetap", result.getProductId());
    }
+
+   @Test
+   void testDeleteProduct_VerifyListIntegrity() {
+      Product product1 = new Product();
+      product1.setProductId("id-1");
+      productRepository.create(product1);
+      Product product2 = new Product();
+      product2.setProductId("id-2");
+      productRepository.create(product2);
+      Product product3 = new Product();
+      product3.setProductId("id-3");
+      productRepository.create(product3);
+      Product product4 = new Product();
+      product4.setProductId("id-4");
+      productRepository.create(product4);
+      Product product5 = new Product();
+      product5.setProductId("id-5");
+      productRepository.create(product5);
+
+      productRepository.delete("id-3");
+      productRepository.delete("id-5");
+
+      assertNull(productRepository.findById("id-3"));
+      assertNull(productRepository.findById("id-5"));
+
+      assertNotNull(productRepository.findById("id-1"));
+      assertNotNull(productRepository.findById("id-2"));
+      assertNotNull(productRepository.findById("id-4"));
+
+      int remainingProduct = 0;
+      Iterator<Product> iterator = productRepository.findAll();
+      while (iterator.hasNext()) {
+         iterator.next(); remainingProduct++;
+      }
+      assertEquals(3, remainingProduct);
+   }
+
+   @Test
+   void testDeleteProductPositive() {
+      Product product = new Product();
+      product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+      product.setProductName("Sampo Cap Bambang");
+      product.setProductQuantity(100);
+      productRepository.create(product);
+
+      productRepository.delete(product.getProductId());
+
+      assertNull(productRepository.findById(product.getProductId()));
+   }
+
+   @Test
+   void testDeleteProductNegative_NotFound() {
+
+      Product product = new Product();
+      product.setProductId("id-asli");
+      product.setProductName("Sampo Asli");
+      productRepository.create(product);
+
+      productRepository.delete("random-id");
+
+      Iterator<Product> iterator = productRepository.findAll();
+      assertTrue(iterator.hasNext());
+   }
 }
